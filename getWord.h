@@ -1,3 +1,3 @@
 #pragma once
 
-char* getWord();
+const char* getWord();

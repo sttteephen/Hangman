@@ -2,17 +2,29 @@
 #include <stdlib.h>
 #include <string.h>
 #include "getWord.h"
+#include "printStock.h"
+
+void clear(){
+    #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+        system("clear");
+    #endif
+
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");
+    #endif
+}
 
 int main(int argc, char **argv)
 {
-	printf("\nWelcome to Hangman!\n");
+	clear();
+
+	printf("Welcome to Hangman!\n");
 
 	char word[100];
 	char finalWord[100];
 	char secretWord[100] = "\0";
 	strcpy(word, getWord());
 	strcpy(finalWord, word);
-	printf("%s\n", word);
 
 	int wordLen = strlen(word);
 	for(int i=0; i<wordLen; i++)
@@ -39,7 +51,7 @@ int main(int argc, char **argv)
 		getchar();
 		pointToChar = strchr(word, guess);
 
-		if(strchr(guessedLetters, guess) != '\0')
+		if(strchr(guessedLetters, guess) != NULL)
 		{
 			printf("You have already guessed that\n\n");
 			continue;
@@ -55,7 +67,8 @@ int main(int argc, char **argv)
 			guessesLeft--;
 			printf("Wrong! %d guesses left\n", guessesLeft);
 			printStock(guessesLeft);
-			printf("\n");
+			printf("%s\n", secretWord);
+			printf("\n\n");
 
 
 			if(guessesLeft == 0)
@@ -68,7 +81,7 @@ int main(int argc, char **argv)
 		{
 			printf("You got a letter!\n");
 
-			while((pointToChar = strchr(word, guess)) != '\0')
+			while((pointToChar = strchr(word, guess)) != NULL)
 			{
 				lettersFound++;
 
@@ -121,6 +134,7 @@ int main(int argc, char **argv)
 				strcat(wordPart1, "_");
 				strcat(wordPart1, wordPart2);
 				strcpy(word, wordPart1);
+				
 				strncat(secretWordPart1, &guess,  1);
 				strcat(secretWordPart1, secretWordPart2);
 				strcpy(secretWord, secretWordPart1);
