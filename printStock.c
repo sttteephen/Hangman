@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//print the hangman with a new limb after each wrong guess
 void printStock(int guessesLeft)
 {
 	switch(guessesLeft)

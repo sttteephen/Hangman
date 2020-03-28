@@ -4,6 +4,9 @@
 #include "getWord.h"
 #include "printStock.h"
 
+#define STR_LEN 100
+
+//clear the screen
 void clear(){
     #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
         system("clear");
@@ -20,12 +23,18 @@ int main(int argc, char **argv)
 
 	printf("Welcome to Hangman!\n");
 
-	char word[100];
-	char finalWord[100];
-	char secretWord[100] = "\0";
-	strcpy(word, getWord());
+	char word[STR_LEN];
+	char finalWord[STR_LEN];
+	char secretWord[STR_LEN] = "\0";
+
+	//get a random word for user to guess
+	char* ptrToWord = getWord();
+	strcpy(word, ptrToWord);
 	strcpy(finalWord, word);
 
+	free(ptrToWord);
+
+	//create a string, the length of the word to be guessed, using '_' characters
 	int wordLen = strlen(word);
 	for(int i=0; i<wordLen; i++)
 	{
@@ -34,7 +43,7 @@ int main(int argc, char **argv)
 	}
 
 	char guess;
-	char guessedLetters[100] = "\0";
+	char guessedLetters[STR_LEN] = "\0";
 	int guessesLeft = 8;
 	char *pointToChar;
 	int charIndex;
@@ -44,8 +53,10 @@ int main(int argc, char **argv)
 
 	int lettersFound = 0;
 
+	//loop whilst the player still has guesses left
 	while(guessesLeft > 0)
 	{
+		//get a guess from the user
 		printf("Guess a letter: ");
 		guess = getchar();
 		getchar();
@@ -53,24 +64,27 @@ int main(int argc, char **argv)
 
 		if(strchr(guessedLetters, guess) != NULL)
 		{
+			//tell them if the have already guesssed that letter
 			printf("You have already guessed that\n\n");
 			continue;
 		}
 		else
-		{
+		{	
+			//add guess to string of guessed letters
 			strncat(guessedLetters, &guess, 1);
 			strcat(guessedLetters, "\0");
 		}
 
 		if(pointToChar == NULL)
 		{
+			//display if guess is wrong
 			guessesLeft--;
 			printf("Wrong! %d guesses left\n", guessesLeft);
 			printStock(guessesLeft);
 			printf("%s\n", secretWord);
 			printf("\n\n");
 
-
+			//display if out of guesses
 			if(guessesLeft == 0)
 			{
 				printf("You are out of guesses :(\n");
@@ -81,16 +95,17 @@ int main(int argc, char **argv)
 		{
 			printf("You got a letter!\n");
 
+			//if the guess is correct display the correctly guessed letter in every place it occurs in the word
 			while((pointToChar = strchr(word, guess)) != NULL)
 			{
 				lettersFound++;
 
 				int index1 = 0;
 				int index2 = 0;
-				char wordPart1[100] = "\0";
-				char wordPart2[100] = "\0";
-				char secretWordPart1[100] = "\0";
-				char secretWordPart2[100] = "\0";
+				char wordPart1[STR_LEN] = "\0";
+				char wordPart2[STR_LEN] = "\0";
+				char secretWordPart1[STR_LEN] = "\0";
+				char secretWordPart2[STR_LEN] = "\0";
 				char *pointToWord = word;
 							
 				index1 = pointToChar - pointToWord;
@@ -142,7 +157,8 @@ int main(int argc, char **argv)
 			printf("%s\n\n", secretWord);
 
 			if(lettersFound == wordLen)
-			{
+			{	
+				//display if all letters have been found
 				printf("You guessed the word!\n");
 				break;
 			}
