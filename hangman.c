@@ -31,7 +31,6 @@ int main(int argc, char **argv)
 	char* ptrToWord = getWord();
 	strcpy(word, ptrToWord);
 	strcpy(finalWord, word);
-
 	free(ptrToWord);
 
 	//create a string, the length of the word to be guessed, using '_' characters
@@ -49,6 +48,7 @@ int main(int argc, char **argv)
 	int charIndex;
 
 	printf("The secret word has %d letters\n", wordLen);
+  printf("%s\n", finalWord);
 	printf("%s\n", secretWord);
 
 	int lettersFound = 0;
