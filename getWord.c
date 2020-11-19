@@ -27,7 +27,7 @@ char* getWord()
 
 	wordsList = fopen("words.txt", "r");
 
-	int placeInFile = 0;
+	int placeInFile = 1;
 	int i = 0;
 	
 	//allocate memory for the word
@@ -37,21 +37,24 @@ char* getWord()
 	//read throught the text file and store the indexed word
 	while((letter = getc(wordsList)) != EOF)
 	{
-		if(letter != '\n')
+		//if file has reached the index start populating the word string
+		if(placeInFile == randIndex && letter != '\n')
 		{
 			word_ptr[i] = letter;
 			strcat(word_ptr, "\0");
 			i++;
 		}
-		else if(letter == '\n' && placeInFile == randIndex)
-		{
-			break;
-		}
-		else if(letter == '\n')
+
+		//increment placeInFile when we reach a newline
+		if(letter == '\n')
 		{
 			placeInFile++;
-			memset(word_ptr, '\0', sizeof(word_ptr));
-			i = 0;
+		}
+
+		// exit loop once we have passed the index
+		if(placeInFile > randIndex)
+		{
+			break;
 		}
 	}
 

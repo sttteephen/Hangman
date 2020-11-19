@@ -48,7 +48,6 @@ int main(int argc, char **argv)
 	int charIndex;
 
 	printf("The secret word has %d letters\n", wordLen);
-  printf("%s\n", finalWord);
 	printf("%s\n", secretWord);
 
 	int lettersFound = 0;
