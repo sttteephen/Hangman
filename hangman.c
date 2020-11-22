@@ -55,10 +55,14 @@ int main(int argc, char **argv)
 	//loop whilst the player still has guesses left
 	while(guessesLeft > 0)
 	{
-		//get a guess from the user
+		//get a letter from input
 		printf("Guess a letter: ");
 		guess = getchar();
-		getchar();
+
+		//discard any other input
+		int c;
+		while ((c = getchar()) != '\n' && c != EOF) { }
+
 		pointToChar = strchr(word, guess);
 
 		if(strchr(guessedLetters, guess) != NULL)
