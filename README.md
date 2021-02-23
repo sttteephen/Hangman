@@ -1,6 +1,7 @@
 # Hangman
 
 This is a text based version of hangman written in C.
+[Play on Repl.it](https://repl.it/@sttteephen/Hangman#README.md)
 
 ## Usage 
 
